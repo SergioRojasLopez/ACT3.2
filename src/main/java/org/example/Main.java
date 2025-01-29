@@ -1,9 +1,6 @@
 package org.example;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +10,6 @@ public class Main {
     public static Scanner teclado = new Scanner(System.in);
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jueguito2");
     private static EntityManager em = emf.createEntityManager();
-
 
     public static void main(String[] args) {
         insertarDatosIniciales();
@@ -212,7 +208,7 @@ public class Main {
     }
 
     /**
-     * Metodo para obtener y mostrar todos los resultados
+     * Metodo para obtener y mostrar todos los desarrolladores
      */
     public static void obtenerTodosLosDesarrolladores() {
         List<Desarrollador> desarrolladores = em.createNamedQuery("Desarrollador.findAll", Desarrollador.class).getResultList();
@@ -220,24 +216,26 @@ public class Main {
     }
 
     /**
-     * Metodo para obtener y mostrar juegos de in desarrollador en específico
+     * Metodo para obtener y mostrar juegos de un desarrollador en específico
      * @param nombreDesarrollador
      */
-
     public static void obtenerJuegosPorDesarrollador(String nombreDesarrollador) {
-        TypedQuery<Juego> query = em.createNamedQuery("Juego.findByDeveloper", Juego.class);
+        Query query = em.createQuery(
+                "SELECT j FROM Juego j JOIN j.desarrolladores d WHERE d.nombre = :nombreDesarrollador"
+        );
         query.setParameter("nombreDesarrollador", nombreDesarrollador);
         List<Juego> juegos = query.getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 
     /**
-     * Metodo parao betner y mostrar desarrolladores de un juego en específico
+     * Metodo para obtener y mostrar la desarrolladora de un juego en específico
      * @param nombreJuego
      */
-
     public static void obtenerDesarrolladoresPorJuego(String nombreJuego) {
-        TypedQuery<Desarrollador> query = em.createNamedQuery("Desarrollador.findByGame", Desarrollador.class);
+        Query query = em.createQuery(
+                "SELECT d FROM Desarrollador d JOIN d.juegos j WHERE j.nombreJuego = :nombreJuego"
+        );
         query.setParameter("nombreJuego", nombreJuego);
         List<Desarrollador> desarrolladores = query.getResultList();
         desarrolladores.forEach(d -> System.out.println(d.getNombre()));
@@ -265,48 +263,47 @@ public class Main {
     public static void encontrarJuegosPorPlataforma() {
         System.out.print("Ingrese la plataforma: ");
         String plataforma = teclado.nextLine();
-        List<Juego> juegos = em.createQuery("SELECT j FROM Juego j WHERE j.plataforma = :plataforma", Juego.class)
-                .setParameter("plataforma", plataforma)
-                .getResultList();
+        Query query = em.createQuery(
+                "SELECT j FROM Juego j WHERE j.plataforma = :plataforma"
+        );
+        query.setParameter("plataforma", plataforma);
+        List<Juego> juegos = query.getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 
-    /**
-     * Metodo para encontrar y mostrar juegos lanzados anres de una fecha específica
-     */
     public static void encontrarJuegosAntesDeFechas() {
         System.out.print("Ingrese la fecha (formato: yyyy-MM-dd): ");
         Date fecha = Date.valueOf(teclado.nextLine());
-        List<Juego> juegos = em.createNamedQuery("Juego.findBeforeDate", Juego.class)
-                .setParameter("fecha", fecha)
-                .getResultList();
+        Query query = em.createQuery(
+                "SELECT j FROM Juego j WHERE j.fechaJuego < :fecha"
+        );
+        query.setParameter("fecha", fecha);
+        List<Juego> juegos = query.getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 
-    /**
-     * Metodo para encontar y mostrar juegos lanzados despues de una fecha específica
-     */
     public static void encontrarJuegosDespuesDeFechas() {
         System.out.print("Ingrese la fecha (formato: yyyy-MM-dd): ");
         Date fecha = Date.valueOf(teclado.nextLine());
-        List<Juego> juegos = em.createNamedQuery("Juego.findAfterDate", Juego.class)
-                .setParameter("fecha", fecha)
-                .getResultList();
+        Query query = em.createQuery(
+                "SELECT j FROM Juego j WHERE j.fechaJuego > :fecha"
+        );
+        query.setParameter("fecha", fecha);
+        List<Juego> juegos = query.getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 
-    /**
-     * Metodo para encontrar y mostrar juegos lanzados en un rango de fechas
-     */
     public static void encontrarJuegosEntreFechas() {
         System.out.print("Ingrese la fecha de inicio (formato: yyyy-MM-dd): ");
         Date fechaInicio = Date.valueOf(teclado.nextLine());
         System.out.print("Ingrese la fecha de fin (formato: yyyy-MM-dd): ");
         Date fechaFin = Date.valueOf(teclado.nextLine());
-        List<Juego> juegos = em.createNamedQuery("Juego.findBetweenDates", Juego.class)
-                .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin)
-                .getResultList();
+        Query query = em.createQuery(
+                "SELECT j FROM Juego j WHERE j.fechaJuego BETWEEN :fechaInicio AND :fechaFin"
+        );
+        query.setParameter("fechaInicio", fechaInicio);
+        query.setParameter("fechaFin", fechaFin);
+        List<Juego> juegos = query.getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 

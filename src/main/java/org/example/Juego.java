@@ -9,15 +9,10 @@ import java.util.Set;
 @Entity
 
 /**
- * Las NamesQueries son consultas predefinidas que las reutlizo en el main
+ * Esta NamedQueries es una consulta predefinida que la reutlizo en el main
  */
 @NamedQueries({
         @NamedQuery(name = "Juego.findAll", query = "SELECT j FROM Juego j"),
-        @NamedQuery(name = "Juego.findByDeveloper", query = "SELECT j FROM Juego j JOIN j.desarrolladores d WHERE d.nombre = :nombreDesarrollador"),
-        @NamedQuery(name = "Juego.findByPlatform", query = "SELECT j FROM Juego j WHERE j.plataforma = :plataforma"),
-        @NamedQuery(name = "Juego.findBeforeDate", query = "SELECT j FROM Juego j WHERE j.fechaJuego < :fecha"),
-        @NamedQuery(name = "Juego.findAfterDate", query = "SELECT j FROM Juego j WHERE j.fechaJuego > :fecha"),
-        @NamedQuery(name = "Juego.findBetweenDates", query = "SELECT j FROM Juego j WHERE j.fechaJuego BETWEEN :fechaInicio AND :fechaFin")
 })
 public class Juego {
     @Id
@@ -37,7 +32,6 @@ public class Juego {
 
     @Column(name = "Plataforma", nullable = false, length = 50)
     private String plataforma;
-
 
     /**
      * ManyToMany -> Indica que un juego puede estar asociado a varios desarrolladores y, a su vez, una desarrolladora puede estar asociado a varios juegos.
