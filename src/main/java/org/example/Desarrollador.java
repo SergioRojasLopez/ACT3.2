@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+
+/**
+ * Las NamesQueries son consultas predefinidas que las reutlizo en el main
+ */
 @NamedQueries({
         @NamedQuery(name = "Desarrollador.findAll", query = "SELECT d FROM Desarrollador d"),
         @NamedQuery(name = "Desarrollador.findByGame", query = "SELECT d FROM Desarrollador d JOIN d.juegos j WHERE j.nombreJuego = :nombreJuego")

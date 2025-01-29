@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+
+/**
+ * Las NamesQueries son consultas predefinidas que las reutlizo en el main
+ */
 @NamedQueries({
         @NamedQuery(name = "Juego.findAll", query = "SELECT j FROM Juego j"),
         @NamedQuery(name = "Juego.findByDeveloper", query = "SELECT j FROM Juego j JOIN j.desarrolladores d WHERE d.nombre = :nombreDesarrollador"),

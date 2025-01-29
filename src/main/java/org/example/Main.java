@@ -87,6 +87,9 @@ public class Main {
         emf.close();
     }
 
+    /**
+     * Metodo para insertar los datos iniciales en la base de datos
+     */
     private static void insertarDatosIniciales() {
 
         em.getTransaction().begin();
@@ -145,50 +148,79 @@ public class Main {
         j5.setPlataforma("PC");
         j5.getDesarrolladores().add(dev5);
 
+        Juego j6 = new Juego();
+        j6.setNombreJuego("Red Dead Redemption 2");
+        j6.setFechaJuego(Date.valueOf("2019-09-10"));
+        j6.setPlataforma("Consola");
+        j6.getDesarrolladores().add(dev3);
+
+        Juego j7 = new Juego();
+        j7.setNombreJuego("Halo");
+        j7.setFechaJuego(Date.valueOf("2001-11-15"));
+        j7.setPlataforma("Consola");
+        j7.getDesarrolladores().add(dev1);
+
+        Juego j8 = new Juego();
+        j8.setNombreJuego("Elden Ring");
+        j8.setFechaJuego(Date.valueOf("2022-02-25"));
+        j8.setPlataforma("Consola");
+        j8.getDesarrolladores().add(dev2);
+
+        Juego j9 = new Juego();
+        j9.setNombreJuego("The Witcher 3");
+        j9.setFechaJuego(Date.valueOf("2015-05-18"));
+        j9.setPlataforma("Consola");
+        j9.getDesarrolladores().add(dev4);
+
+        Juego j10 = new Juego();
+        j10.setNombreJuego("Blasphemous 2");
+        j10.setFechaJuego(Date.valueOf("2024-08-24"));
+        j10.setPlataforma("Consola");
+        j10.getDesarrolladores().add(dev5);
+
         em.persist(j1);
         em.persist(j2);
         em.persist(j3);
         em.persist(j4);
         em.persist(j5);
+        em.persist(j6);
+        em.persist(j7);
+        em.persist(j8);
+        em.persist(j9);
+        em.persist(j10);
 
         dev1.getJuegos().add(j1);
-        j1.getDesarrolladores().add(dev1);
-
+        dev1.getJuegos().add(j7);
         dev2.getJuegos().add(j2);
-        j2.getDesarrolladores().add(dev2);
-
+        dev2.getJuegos().add(j8);
         dev3.getJuegos().add(j3);
-        j3.getDesarrolladores().add(dev3);
-
+        dev3.getJuegos().add(j6);
         dev4.getJuegos().add(j4);
-        j4.getDesarrolladores().add(dev4);
-
+        dev4.getJuegos().add(j9);
         dev5.getJuegos().add(j5);
-        j5.getDesarrolladores().add(dev5);
+        dev5.getJuegos().add(j10);
 
         em.getTransaction().commit();
     }
 
     /**
-     *
+     *  Metodo para obtener y mostrar todos los juegos
      */
-
     public static void obtenerTodosLosJuegos() {
         List<Juego> juegos = em.createNamedQuery("Juego.findAll", Juego.class).getResultList();
         juegos.forEach(j -> System.out.println(j.getNombreJuego()));
     }
 
     /**
-     *
+     * Metodo para obtener y mostrar todos los resultados
      */
-
     public static void obtenerTodosLosDesarrolladores() {
         List<Desarrollador> desarrolladores = em.createNamedQuery("Desarrollador.findAll", Desarrollador.class).getResultList();
         desarrolladores.forEach(d -> System.out.println(d.getNombre()));
     }
 
     /**
-     *
+     * Metodo para obtener y mostrar juegos de in desarrollador en específico
      * @param nombreDesarrollador
      */
 
@@ -200,7 +232,7 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo parao betner y mostrar desarrolladores de un juego en específico
      * @param nombreJuego
      */
 
@@ -212,7 +244,7 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo para actualizar el título de un juego
      * @param idJuego
      * @param nuevoNombre
      */
@@ -228,9 +260,8 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo para encontrar y mostrar juegos por plataforma
      */
-
     public static void encontrarJuegosPorPlataforma() {
         System.out.print("Ingrese la plataforma: ");
         String plataforma = teclado.nextLine();
@@ -241,9 +272,8 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo para encontrar y mostrar juegos lanzados anres de una fecha específica
      */
-
     public static void encontrarJuegosAntesDeFechas() {
         System.out.print("Ingrese la fecha (formato: yyyy-MM-dd): ");
         Date fecha = Date.valueOf(teclado.nextLine());
@@ -254,9 +284,8 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo para encontar y mostrar juegos lanzados despues de una fecha específica
      */
-
     public static void encontrarJuegosDespuesDeFechas() {
         System.out.print("Ingrese la fecha (formato: yyyy-MM-dd): ");
         Date fecha = Date.valueOf(teclado.nextLine());
@@ -267,9 +296,8 @@ public class Main {
     }
 
     /**
-     *
+     * Metodo para encontrar y mostrar juegos lanzados en un rango de fechas
      */
-
     public static void encontrarJuegosEntreFechas() {
         System.out.print("Ingrese la fecha de inicio (formato: yyyy-MM-dd): ");
         Date fechaInicio = Date.valueOf(teclado.nextLine());
@@ -283,9 +311,8 @@ public class Main {
     }
 
     /**
-     *
+     * Método para eliminar un juego por su título
      */
-
     public static void borrarJuegoPorTitulo() {
         System.out.print("Ingrese el título del juego a eliminar: ");
         String titulo = teclado.nextLine();
