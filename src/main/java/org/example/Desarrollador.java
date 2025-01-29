@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Desarrollador.findAll", query = "SELECT d FROM Desarrollador d"),
+        @NamedQuery(name = "Desarrollador.findByGame", query = "SELECT d FROM Desarrollador d JOIN d.juegos j WHERE j.nombreJuego = :nombreJuego")
+})
 public class Desarrollador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +22,7 @@ public class Desarrollador {
     private String pais;
 
 
-    @ManyToMany
+    @ManyToMany (mappedBy = "desarrolladores")
     Set<Juego> juegos = new HashSet<>();
 
     public void setIdDesarrollador(int idDesarrollador) {

@@ -7,6 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Juego.findAll", query = "SELECT j FROM Juego j"),
+        @NamedQuery(name = "Juego.findByDeveloper", query = "SELECT j FROM Juego j JOIN j.desarrolladores d WHERE d.nombre = :nombreDesarrollador"),
+        @NamedQuery(name = "Juego.findByPlatform", query = "SELECT j FROM Juego j WHERE j.plataforma = :plataforma"),
+        @NamedQuery(name = "Juego.findBeforeDate", query = "SELECT j FROM Juego j WHERE j.fechaJuego < :fecha"),
+        @NamedQuery(name = "Juego.findAfterDate", query = "SELECT j FROM Juego j WHERE j.fechaJuego > :fecha"),
+        @NamedQuery(name = "Juego.findBetweenDates", query = "SELECT j FROM Juego j WHERE j.fechaJuego BETWEEN :fechaInicio AND :fechaFin")
+})
 public class Juego {
     @Id
     /**
@@ -19,6 +27,7 @@ public class Juego {
     @Column(name = "Videojuego", nullable = false, length = 50)
     private String nombreJuego;
 
+    @Basic
     @Column(name = "Fecha", nullable = false)
     private Date fechaJuego;
 
